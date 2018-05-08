@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "acpype output",
+  "description": "ACPYPE output",
+  "type": "object",
+  "properties": {}
+}
