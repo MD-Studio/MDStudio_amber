@@ -1,16 +1,13 @@
-FROM python:3.6
+FROM mdstudio/mdstudio_docker3:0.0.1
 
-# Service user
-RUN useradd mdstudio && mkdir /home/mdstudio && chown mdstudio:mdstudio /home/mdstudio
+COPY . /home/mdstudio/lie_amber
 
-COPY . /home/mdstudio
+RUN chown mdstudio:mdstudio /home/mdstudio/lie_amber
 
-WORKDIR /home/mdstudio
-
-RUN pip install mdstudio
+WORKDIR /home/mdstudio/lie_amber
 
 RUN pip install .
 
 USER mdstudio
 
-CMD ["./entry_point_lie_amber.sh"]
+CMD ["bash", "entry_point_lie_amber.sh"]
