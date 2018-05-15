@@ -1,27 +1,19 @@
 FROM mdstudio/mdstudio_docker3:0.0.1 as amber_base
 
-RUN apt-get update -y && apt-get install csh gcc gfortran flex -y
-
 WORKDIR /home/mdstudio
 
-COPY AmberTools17.tar.bz2 /home/mdstudio
+RUN wget http://ambermd.org/downloads/install_ambertools.sh
 
-RUN tar -xvf AmberTools17.tar.bz2
+RUN bash install_ambertools.sh -v 3 --prefix /home/mdstudio --non-conda 
 
-ENV PYTHON /usr/local/bin/python
-
-RUN cd /home/mdstudio/amber16 && ./configure --no-updates --with-python $PYTHON gnu && make
-
-RUN rm -rf /home/mdstudio/amber16/AmberTools /home/mdstudio/amber16/test
+RUN rm -rf /home/mdstudio/ambertools.18.binary.tar.bz2
 
 # used amber compiled in previous step
 FROM mdstudio/mdstudio_docker3:0.0.1
 
-# ENV AMBERHOME /home/mdstudio/amber16
-
 run apt-get update -y && apt-get install swig gcc gfortran libopenbabel-dev openbabel -y
 
-COPY --from=amber_base /home/mdstudio/amber16 /home/mdstudio/amber16
+COPY --from=amber_base /home/mdstudio/amber18 /home/mdstudio/amber18
 
 COPY entry_point_lie_amber.sh sett* setup.py /home/mdstudio/lie_amber/
 
