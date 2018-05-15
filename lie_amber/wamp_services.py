@@ -25,7 +25,12 @@ class AmberWampApi(ComponentSession):
         # Load ACPYPE configuration and update
         acpype_config = get_amber_config(request)
 
-        return call_amber_package(request, acpype_config, amber_acpype)
+        result = call_amber_package(request, acpype_config, amber_acpype)
+
+        if result is not None:
+            result = {k: read_file(val) for k, val in result.items()}
+
+        return result
 
     @endpoint('reduce', 'reduce-request', 'reduce-response')
     def run_amber_reduce(self, request, claims):
@@ -86,3 +91,11 @@ def create_temp_file(structure, from_file, workdir):
     copy_structure(structure, from_file, tmp_file)
 
     return tmp_file
+
+
+def read_file(path):
+    if os.path.isfile(path):
+        with open(path, "r") as f:
+            return f.read()
+    else:
+        return path
