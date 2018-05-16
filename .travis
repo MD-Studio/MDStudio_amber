@@ -1,0 +1,34 @@
+sudo: false
+language: generic
+
+os:
+ - linux
+
+python:
+  - "3.6"
+
+global:
+  env:
+    - COMMIT_AUTHOR_EMAIL: "f.zapata@esciencecenter.nl"
+
+install:
+  # install miniconda
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no --set auto_update_conda False
+
+  # install dependencies
+  - conda install ambertools=18 -c http://ambermd.org/downloads/ambertools/conda/
+  - conda install -c openbabel openbabel 
+
+  # install library
+  - pip install .[test]
+  
+script:
+  - python -c "import lie_amber"
+
+branches:
+  only:
+    - master

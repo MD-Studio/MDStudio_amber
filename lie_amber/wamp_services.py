@@ -25,12 +25,7 @@ class AmberWampApi(ComponentSession):
         # Load ACPYPE configuration and update
         acpype_config = get_amber_config(request)
 
-        result = call_amber_package(request, acpype_config, amber_acpype)
-
-        if result is not None:
-            result = {k: read_file(val) for k, val in result.items()}
-
-        return result
+        return call_amber_package(request, acpype_config, amber_acpype)
 
     @endpoint('reduce', 'reduce-request', 'reduce-response')
     def run_amber_reduce(self, request, claims):
