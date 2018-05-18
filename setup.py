@@ -30,7 +30,7 @@ setup(
     Paul Visscher - Zefiros Software (www.zefiros.eu)
     Felipe Zapata - eScience Center (https://www.esciencecenter.nl/)""",
     author_email=['m4.van.dijk@vu.nl', 'f.zapata@esciencecenter.nl'],
-    url='https://github.com/MD-Studio/MDStudio',
+    url='https://github.com/MD-Studio/lie_amber',
     license='Apache Software License 2.0',
     keywords='MDStudio AmberTools Amber',
     platforms=['Any'],
