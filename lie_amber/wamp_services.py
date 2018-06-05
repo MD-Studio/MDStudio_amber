@@ -58,7 +58,7 @@ def call_amber_package(request, config, function):
     Create temporate files and invoke the `function` using `config`.
     """
     # Create workdir and save file
-    workdir = request['workdir']
+    workdir = os.path.abspath(request['workdir'])
     create_dir(workdir)
     tmp_file = create_temp_file(
         request['structure'], request['from_file'], workdir)
