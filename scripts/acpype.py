@@ -89,7 +89,7 @@ ionOrSolResNameList = ['Cl-', 'Na+', 'K+', 'CIO', 'Cs+', 'IB', 'Li+', 'MG2',
 
 leapGaffFile = 'leaprc.gaff'
 # leapAmberFile = 'leaprc.ff99SB'  # 'leaprc.ff10' and 'leaprc.ff99bsc0' has extra Atom Types not in parm99.dat
-leapAmberFile = 'leaprc.ff12SB'
+leapAmberFile = 'oldff/leaprc.ff14SB'
 
 # "qm_theory='AM1', grms_tol=0.0002, maxcyc=999, tight_p_conv=1, scfconv=1.d-10,"
 # "AM1 ANALYT MMOK GEO-OK PRECISE"
@@ -3125,7 +3125,7 @@ class ACTopol(AbstractTopol):
             return None
         self.tleapExe = _getoutput('which tleap') or ''
         self.sleapExe = _getoutput('which sleap') or ''
-        self.parmchkExe = _getoutput('which parmchk') or ''
+        self.parmchkExe = _getoutput('which parmchk2') or ''
         self.babelExe = _getoutput('which babel') or ''
         if not os.path.exists(self.babelExe):
             if self.ext != '.mol2' and self.ext != '.mdl':  # and self.ext != '.mol':
