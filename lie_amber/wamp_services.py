@@ -8,6 +8,26 @@ from mdstudio.component.session import ComponentSession
 from lie_amber.ambertools import (amber_acpype, amber_reduce)
 
 
+def encoder(file_path):
+    """
+    """
+    extension = os.path.splitext(file_path)[1]
+    with open(file_path, 'r') as f:
+        payload = f.read()
+
+    return {"name": file_path, "extension": extension,
+            "payload": payload, "encoding": "utf8"}
+
+
+def encode_file(val):
+    """
+    """
+    if not os.path.isfile(val):
+        return val
+    else:
+        return encoder(val)
+
+
 class AmberWampApi(ComponentSession):
     """
     AmberTools WAMP methods.
@@ -24,8 +44,9 @@ class AmberWampApi(ComponentSession):
         """
         # Load ACPYPE configuration and update
         acpype_config = get_amber_config(request)
+        result = call_amber_package(request, acpype_config, amber_acpype)
 
-        return call_amber_package(request, acpype_config, amber_acpype)
+        return {key: encode_file(val) for key, val in result.items()}
 
     @endpoint('reduce', 'reduce-request', 'reduce-response')
     def run_amber_reduce(self, request, claims):
@@ -35,8 +56,9 @@ class AmberWampApi(ComponentSession):
         details.
         """
         reduce_config = get_amber_config(request)
+        result = call_amber_package(request, reduce_config, amber_reduce)
 
-        return call_amber_package(request, reduce_config, amber_reduce)
+        return {key: encode_file(key, val) for key, val in result.items()}
 
 
 def get_amber_config(request):
@@ -94,3 +116,5 @@ def read_file(path):
             return f.read()
     else:
         return path
+
+
