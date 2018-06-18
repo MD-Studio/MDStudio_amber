@@ -20,8 +20,7 @@ class Run_acpype(ComponentSession):
             result = yield self.call(
                 "mdgroup.lie_amber.endpoint.acpype",
                 {"structure": amber_input,
-                 "workdir": workdir,
-                 "from_file": False})
+                 "workdir": workdir})
         assert all(os.path.isfile(p) or os.path.isdir(p) for p in result.values())
 
 
