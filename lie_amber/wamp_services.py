@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import shutil
 
 from mdstudio.api.endpoint import endpoint
 from mdstudio.component.session import ComponentSession
@@ -9,19 +10,17 @@ from lie_amber.ambertools import (amber_acpype, amber_reduce)
 
 def encoder(file_path):
     """
-    Serialize file as a plain text with some metadata attached.
     """
     extension = os.path.splitext(file_path)[1]
     with open(file_path, 'r') as f:
-        content = f.read()
+        payload = f.read()
 
-    return {"path": file_path, "extension": extension,
-            "content": content, "encoding": "utf8"}
+    return {"name": file_path, "extension": extension,
+            "payload": payload, "encoding": "utf8"}
 
 
 def encode_file(val):
     """
-    If `val` is a valid `file_path` encode it.
     """
     if not os.path.isfile(val):
         return val
@@ -84,16 +83,19 @@ def call_amber_package(request, config, function):
     workdir = os.path.abspath(request['workdir'])
     create_dir(workdir)
     tmp_file = create_temp_file(
-        request['structure'], workdir)
+        request['structure'], request['from_file'], workdir)
 
     # Run amber function
     output = function(tmp_file, config, workdir)
     return output
 
 
-def copy_structure(content, tmp_file):
-    with open(tmp_file, 'w') as inp:
-        inp.write(content)
+def copy_structure(structure, from_file, tmp_file):
+    if from_file and os.path.exists(structure):
+        shutil.copyfile(structure, tmp_file)
+    else:
+        with open(tmp_file, 'w') as inp:
+            inp.write(structure)
 
 
 def create_dir(folder):
@@ -103,7 +105,7 @@ def create_dir(folder):
 
 def create_temp_file(structure, from_file, workdir):
     tmp_file = os.path.join(workdir, 'input.mol2')
-    copy_structure(structure['content'], tmp_file)
+    copy_structure(structure, from_file, tmp_file)
 
     return tmp_file
 
@@ -114,3 +116,5 @@ def read_file(path):
             return f.read()
     else:
         return path
+
+
