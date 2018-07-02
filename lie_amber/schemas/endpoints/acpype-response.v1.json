@@ -4,37 +4,5 @@
   "description": "ACPYPE output",
   "type": "object",
     "properties": {
-        "ac_frcmod": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "ac_inpcrd": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "ac_lib": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "ac_prmtop": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "bcc_gaff_mol2": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "cns_inp": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "cns_par": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "cns_top": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "gmx_gro": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "gmx_itp": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "gmx_opls_itp": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "gmx_opls_top": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "gmx_top": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "new_pdb": {
-	    "$ref": "resource://mdgroup/lie_amber/path_file/v1"},
-        "path": {
-	    "type": "string",
-	    "description": "path to the results"
-	}
     }
 }

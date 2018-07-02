@@ -46,7 +46,8 @@ class AmberWampApi(ComponentSession):
         acpype_config = get_amber_config(request)
         result = call_amber_package(request, acpype_config, amber_acpype)
 
-        return {key: encode_file(val) for key, val in result.items()}
+        # return {key: encode_file(val) for key, val in result.items()}
+        return result
 
     @endpoint('reduce', 'reduce-request', 'reduce-response')
     def run_amber_reduce(self, request, claims):

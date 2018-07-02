@@ -16,12 +16,12 @@ class Run_acpype(ComponentSession):
 
     @chainable
     def on_run(self):
-        with self.group_context('mdgroup'):
-            result = yield self.call(
-                "mdgroup.lie_amber.endpoint.acpype",
-                {"structure": amber_input,
-                 "workdir": workdir})
-        assert all(os.path.isfile(p) or os.path.isdir(p) for p in result.values())
+        result = yield self.call(
+            "mdgroup.lie_amber.endpoint.acpype",
+            {"structure": amber_input,
+             "workdir": workdir})
+        print(result)
+        # assert all(os.path.isfile(p) or os.path.isdir(p) for p in result.values())
 
 
 if __name__ == "__main__":
