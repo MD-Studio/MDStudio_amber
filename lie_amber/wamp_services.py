@@ -10,13 +10,14 @@ from lie_amber.ambertools import (amber_acpype, amber_reduce)
 
 def encoder(file_path):
     """
+    Encode the content of `file_path` into a simple dict.
     """
     extension = os.path.splitext(file_path)[1]
     with open(file_path, 'r') as f:
-        payload = f.read()
+        content = f.read()
 
     return {"name": file_path, "extension": extension,
-            "payload": payload, "encoding": "utf8"}
+            "content": content, "encoding": "utf8"}
 
 
 def encode_file(val):
@@ -46,8 +47,7 @@ class AmberWampApi(ComponentSession):
         acpype_config = get_amber_config(request)
         result = call_amber_package(request, acpype_config, amber_acpype)
 
-        # return {key: encode_file(val) for key, val in result.items()}
-        return result
+        return {key: encode_file(val) for key, val in result.items()}
 
     @endpoint('reduce', 'reduce-request', 'reduce-response')
     def run_amber_reduce(self, request, claims):
@@ -84,7 +84,7 @@ def call_amber_package(request, config, function):
     workdir = os.path.abspath(request['workdir'])
     create_dir(workdir)
     tmp_file = create_temp_file(
-        request['structure'], request['from_file'], workdir)
+        request['structure']['content'], request['from_file'], workdir)
 
     # Run amber function
     output = function(tmp_file, config, workdir)
@@ -117,5 +117,3 @@ def read_file(path):
             return f.read()
     else:
         return path
-
-
