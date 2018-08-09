@@ -21,8 +21,6 @@ def encoder(file_path):
 
 
 def encode_file(val):
-    """
-    """
     if not os.path.isfile(val):
         return val
     else:
