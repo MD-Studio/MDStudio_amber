@@ -34,7 +34,7 @@ class AmberWampApi(ComponentSession):
     def authorize_request(self, uri, claims):
         return True
 
-    @endpoint('acpype', 'acpype-request', 'acpype-response')
+    @endpoint('acpype', 'acpype_request', 'acpype_response')
     def run_amber_acpype(self, request, claims):
         """
         Call amber acpype package using a molecular `structure`.
@@ -47,7 +47,7 @@ class AmberWampApi(ComponentSession):
 
         return {key: encode_file(val) for key, val in result.items()}
 
-    @endpoint('reduce', 'reduce-request', 'reduce-response')
+    @endpoint('reduce', 'reduce_request', 'reduce_response')
     def run_amber_reduce(self, request, claims):
         """
         Call amber reduce using a  a molecular `structure`.
