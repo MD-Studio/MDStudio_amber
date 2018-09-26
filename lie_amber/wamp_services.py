@@ -16,7 +16,7 @@ def encoder(file_path):
     with open(file_path, 'r') as f:
         content = f.read()
 
-    return {"path": file_path, "extension": extension,
+    return {"path": file_path, "extension": extension.lstrip('.'),
             "content": content, "encoding": "utf8"}
 
 

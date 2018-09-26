@@ -9,7 +9,7 @@ with open(structure_path, 'r') as f:
     amber_input = f.read()
 
 structure = {"path": structure_path, "content": amber_input,
-             "extension": ".mol2"}
+             "extension": "mol2"}
 
 
 class Run_acpype(ComponentSession):
