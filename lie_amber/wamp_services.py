@@ -3,8 +3,10 @@
 import os
 import shutil
 
+from tempfile import mktemp
 from mdstudio.api.endpoint import endpoint
 from mdstudio.component.session import ComponentSession
+
 from lie_amber.ambertools import (amber_acpype, amber_reduce)
 
 
@@ -41,11 +43,22 @@ class AmberWampApi(ComponentSession):
         See the `schemas/endpoints/acpype-request.v1.json for
         details.
         """
+
         # Load ACPYPE configuration and update
         acpype_config = get_amber_config(request)
-        result = call_amber_package(request, acpype_config, amber_acpype)
 
-        return {key: encode_file(val) for key, val in result.items()}
+        # Create unique workdir name
+        workdir = os.path.join(os.path.abspath(request['workdir']), os.path.basename(mktemp()))
+        request['workdir'] = workdir
+
+        # Run acpype
+        result = call_amber_package(request, acpype_config, amber_acpype)
+        result_files = {key: encode_file(val) for key, val in result.items()}
+
+        # Remove workdir
+        shutil.rmtree(workdir)
+
+        return result_files
 
     @endpoint('reduce', 'reduce_request', 'reduce_response')
     def run_amber_reduce(self, request, claims):
@@ -54,10 +67,20 @@ class AmberWampApi(ComponentSession):
         See the the `schemas/endpoints/reduce-request.v1.json for
         details.
         """
-        reduce_config = get_amber_config(request)
-        result = call_amber_package(request, reduce_config, amber_reduce)
 
-        return {key: encode_file(key, val) for key, val in result.items()}
+        reduce_config = get_amber_config(request)
+
+        # Create unique workdir name
+        workdir = os.path.join(os.path.abspath(request['workdir']), os.path.basename(mktemp()))
+        request['workdir'] = workdir
+
+        result = call_amber_package(request, reduce_config, amber_reduce)
+        result_files = {key: encode_file(val) for key, val in result.items()}
+
+        # Remove workdir
+        shutil.rmtree(workdir)
+
+        return result_files
 
 
 def get_amber_config(request):
@@ -78,8 +101,9 @@ def call_amber_package(request, config, function):
     """
     Create temporate files and invoke the `function` using `config`.
     """
-    # Create workdir and save file
-    workdir = os.path.abspath(request['workdir'])
+
+    # Create unique workdir and save file
+    workdir = request['workdir']
     create_dir(workdir)
     tmp_file = create_temp_file(
         request['structure']['content'], request['from_file'], workdir)
