@@ -40,7 +40,7 @@ class AmberWampApi(ComponentSession):
     def run_amber_acpype(self, request, claims):
         """
         Call amber acpype package using a molecular `structure`.
-        See the `schemas/endpoints/acpype-request.v1.json for
+        See the `schemas/endpoints/acpype_request.v1.json for
         details.
         """
 
@@ -64,7 +64,7 @@ class AmberWampApi(ComponentSession):
     def run_amber_reduce(self, request, claims):
         """
         Call amber reduce using a  a molecular `structure`.
-        See the the `schemas/endpoints/reduce-request.v1.json for
+        See the the `schemas/endpoints/reduce_request.v1.json for
         details.
         """
 

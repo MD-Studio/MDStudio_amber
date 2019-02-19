@@ -35,7 +35,7 @@ def schema_to_data(schema, data=None, defdict=None):
 
 ACPYPE_LIE_SCHEMA = os.path.join(
     pkgutil.get_data(
-        'lie_amber', 'schemas/endpoints/acpype-request.v1.json'))
+        'lie_amber', 'schemas/endpoints/acpype_request.v1.json'))
 
 settings_acpype = get_amber_config(
     schema_to_data(json.loads(ACPYPE_LIE_SCHEMA)))
