@@ -52,13 +52,17 @@ class AmberWampApi(ComponentSession):
         request['workdir'] = workdir
 
         # Run acpype
-        result = call_amber_package(request, acpype_config, amber_acpype)
-        result_files = {key: encode_file(val) for key, val in result.items()}
+        result_files = call_amber_package(request, acpype_config, amber_acpype)
+
+        result = {'status': 'failed', 'output': None}
+        if result_files:
+            result['status'] = 'completed'
+            result['output'] = {key: encode_file(val) for key, val in result.items()}
 
         # Remove workdir
         shutil.rmtree(workdir)
 
-        return result_files
+        return result
 
     @endpoint('reduce', 'reduce_request', 'reduce_response')
     def run_amber_reduce(self, request, claims):
@@ -74,13 +78,17 @@ class AmberWampApi(ComponentSession):
         workdir = os.path.join(os.path.abspath(request['workdir']), os.path.basename(mktemp()))
         request['workdir'] = workdir
 
-        result = call_amber_package(request, reduce_config, amber_reduce)
-        result_files = {key: encode_file(val) for key, val in result.items()}
+        result_files = call_amber_package(request, reduce_config, amber_reduce)
+
+        result = {'status': 'failed', 'output': None}
+        if result_files:
+            result['status'] = 'completed'
+            result['output'] = {key: encode_file(val) for key, val in result.items()}
 
         # Remove workdir
         shutil.rmtree(workdir)
 
-        return result_files
+        return result
 
 
 def get_amber_config(request):

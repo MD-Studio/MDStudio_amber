@@ -3,6 +3,25 @@
   "title": "acpype output",
   "description": "ACPYPE output",
   "type": "object",
-    "properties": {
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "ACPYPE final status",
+      "enum": [
+        "failed",
+        "completed"
+      ]
+    },
+    "output": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Dictionary containing the ACPYPE output files"
     }
+  },
+  "required": [
+    "status",
+    "output"
+  ]
 }
