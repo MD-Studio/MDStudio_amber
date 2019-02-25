@@ -57,7 +57,7 @@ class AmberWampApi(ComponentSession):
         result = {'status': 'failed', 'output': None}
         if result_files:
             result['status'] = 'completed'
-            result['output'] = {key: encode_file(val) for key, val in result.items()}
+            result['output'] = {key: encode_file(val) for key, val in result_files.items()}
 
         # Remove workdir
         shutil.rmtree(workdir)
@@ -78,12 +78,13 @@ class AmberWampApi(ComponentSession):
         workdir = os.path.join(os.path.abspath(request['workdir']), os.path.basename(mktemp()))
         request['workdir'] = workdir
 
+        # Run AMBER reduce
         result_files = call_amber_package(request, reduce_config, amber_reduce)
 
         result = {'status': 'failed', 'output': None}
         if result_files:
             result['status'] = 'completed'
-            result['output'] = {key: encode_file(val) for key, val in result.items()}
+            result['output'] = {key: encode_file(val) for key, val in result_files.items()}
 
         # Remove workdir
         shutil.rmtree(workdir)
