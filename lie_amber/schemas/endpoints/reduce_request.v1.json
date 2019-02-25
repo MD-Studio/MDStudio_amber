@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://mdstudio/schemas/endpoints/reduce_request.v1.json",
   "title": "reduce amber",
   "description": "Amber reduce program configuration",
   "type": "object",

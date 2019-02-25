@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://mdstudio/schemas/endpoints/acpype_response.v1.json",
   "title": "acpype output",
   "description": "ACPYPE output",
   "type": "object",

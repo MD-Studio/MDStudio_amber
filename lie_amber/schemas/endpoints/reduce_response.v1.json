@@ -1,9 +1,10 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema",
-    "title": "AMBER reduce output",
-    "description": "AMBER reduce output",
-    "type": "object",
-    "properties": {
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://mdstudio/schemas/endpoints/reduce_response.v1.json",
+  "title": "AMBER reduce output",
+  "description": "AMBER reduce output",
+  "type": "object",
+  "properties": {
     "status": {
       "type": "string",
       "description": "AMBER reduce final status",
