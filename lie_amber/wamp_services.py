@@ -56,8 +56,9 @@ class AmberWampApi(ComponentSession):
 
         result = {'status': 'failed', 'output': None}
         if result_files:
-            result['status'] = 'completed'
             result['output'] = {key: encode_file(val) for key, val in result_files.items()}
+            if len(result['output']):
+                result['status'] = 'completed'
 
         # Remove workdir
         shutil.rmtree(workdir)
@@ -83,8 +84,9 @@ class AmberWampApi(ComponentSession):
 
         result = {'status': 'failed', 'output': None}
         if result_files:
-            result['status'] = 'completed'
             result['output'] = {key: encode_file(val) for key, val in result_files.items()}
+            if len(result['output']):
+                result['status'] = 'completed'
 
         # Remove workdir
         shutil.rmtree(workdir)
