@@ -49,6 +49,7 @@ class AmberWampApi(ComponentSession):
 
         # Create unique workdir name
         workdir = os.path.join(os.path.abspath(request['workdir']), os.path.basename(mktemp()))
+        self.log.info('Set ACPYPE workdir to: {0}'.format(workdir))
         request['workdir'] = workdir
 
         # Run acpype
@@ -77,6 +78,7 @@ class AmberWampApi(ComponentSession):
 
         # Create unique workdir name
         workdir = os.path.join(os.path.abspath(request['workdir']), os.path.basename(mktemp()))
+        self.log.info('Set AMBER reduce workdir to: {0}'.format(workdir))
         request['workdir'] = workdir
 
         # Run AMBER reduce

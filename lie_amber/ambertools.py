@@ -61,8 +61,8 @@ def amber_acpype(mol, options, workdir):
     workdir_name = os.path.splitext(mol)[0]
     cmd = [acepype_exe, '-i', mol] + flags
 
-    print(
-        "ACPYPE command: {0}".format(' '.join(cmd)))
+    print("ACPYPE workdir: {0}".format(workdir))
+    print("ACPYPE command: {0}".format(' '.join(cmd)))
 
     # Run the command
     p = Popen(' '.join(cmd), stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True, cwd=workdir)
