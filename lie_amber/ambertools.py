@@ -3,7 +3,7 @@
 import os
 import glob
 import logging
-from subprocess import (PIPE, Popen)
+import subprocess
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +39,15 @@ def amber_acpype(mol, options, workdir):
     - Sousa da Silva AW, Vranken WF. ACPYPE - AnteChamber PYthon
       Parser interfacE. (2012), BMC Res Notes. 2012 Jul 23;5:367.
       doi: 10.1186/1756-0500-5-367.
+
+    :param mol:     file path to input structure in MOL2 file format
+    :type mol:      :py:str
+    :param options: ACPYPE command line options
+    :type options:  :py:dict
+    :param workdir: file path to working directory to execute reduce command
+    :type workdir:  :py:str
     """
+
     # ACPYPE executable
     acepype_exe = 'acpype.py'
 
@@ -61,23 +69,25 @@ def amber_acpype(mol, options, workdir):
     workdir_name = os.path.splitext(mol)[0]
     cmd = [acepype_exe, '-i', mol] + flags
 
-    print("ACPYPE command: {0}".format(' '.join(cmd)))
-
     # Run the command
-    p = Popen(' '.join(cmd), stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True, cwd=workdir)
-    cmd_out, cmd_err = p.communicate()
-    print("OUTPUT ACPYPE:\n{}".format(cmd_out))
-    if cmd_err:
-        print("Error ACPYPE:\n{}".format(cmd_err))
+    logger.info("ACPYPE command: {0}".format(' '.join(cmd)))
+    try:
+        p = subprocess.run(' '.join(cmd), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=workdir)
+    except subprocess.CalledProcessError as err:
+        logger.error('ACPYPE failed:', err)
+    else:
+        logger.info('ACPYPE returncode:', p.returncode)
+        logger.info('ACPYPE stdout: {!r}'.format(p.stdout.decode('utf-8')))
+        logger.error('ACPYPE stderr: {!r}'.format(p.stderr.decode('utf-8')))
 
     output_path = os.path.join(workdir, '{0}.acpype'.format(workdir_name))
     if os.path.isdir(output_path):
         outfiles = collect_acpype_output(output_path)
         outfiles['path'] = output_path
         return outfiles
-    else:
-        logger.error('Acpype failed')
-        return None
+
+    logger.error('Acpype failed')
+    return None
 
 
 def amber_reduce(mol, options, workdir, output=None):
@@ -104,18 +114,14 @@ def amber_reduce(mol, options, workdir, output=None):
 
     :param mol:     file path to input structure in PDB file format
     :type mol:      :py:str
+    :param options: reduce command line options
+    :type options:  :py:dict
+    :param workdir: file path to working directory to execute reduce command
+    :type workdir:  :py:str
     :param output:  file path to output structure in PDB file format
                     Defaults to the input path with '_h.pdb' added as
                     prefix.
     :type output:   :py:str
-    :param return_output_path: return the path to the output PDB file
-                    instead of the contents of the file itself.
-    :type return_output_path: :py:bool
-    :param exe:     name of the 'reduce' executable as available in the
-                    amber bin directory defined by the 'amberhome'
-                    variable in the module settings (defaults to the
-                    AMBER_HOME environmental variable).
-    :type exe:      :py:str
     """
     reduce_exe_path = 'reduce'
 
@@ -132,22 +138,24 @@ def amber_reduce(mol, options, workdir, output=None):
         ['-{0}{1}'.format(option, flag) for option, flag in
          options.items() if type(flag) not in (bool, type(None))])
 
-    print("Running Amber 'reduce' with command line arguments: {0}".format(','.join(flags)))
-
     # Command
     cmd = [reduce_exe_path] + flags
     cmd.extend([mol, '>', output])
 
     # Run the command
-    p = Popen(' '.join(cmd), stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
-    cmd_out, cmd_err = p.communicate()
-    print("OUTPUT AMBER REDUCE:\n{}".format(cmd_out))
-    if cmd_err:
-        print("Error AMBER REDUCE:\n{}".format(cmd_err))
+    logger.info("Amber reduce command: {0}".format(' '.join(cmd)))
+    try:
+        p = subprocess.run(' '.join(cmd), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=workdir)
+    except subprocess.CalledProcessError as err:
+        logger.error('Amber reduce failed:', err)
+    else:
+        logger.info('Amber reduce returncode:', p.returncode)
+        logger.info('Amber reduce stdout: {!r}'.format(p.stdout.decode('utf-8')))
+        logger.error('Amber reduce stderr: {!r}'.format(p.stderr.decode('utf-8')))
 
     # Return output file
     if os.path.exists(output):
         return output
-    else:
-        logger.error('Reduce failed, not output file {0}'.format(output))
-        return None
+
+    logger.error('Reduce failed, not output file {0}'.format(output))
+    return None
