@@ -70,14 +70,16 @@ def amber_acpype(mol, options, workdir):
     cmd = [acepype_exe, '-i', mol] + flags
 
     # Run the command
-    logger.info("ACPYPE command: {0}".format(' '.join(cmd)))
+    print("ACPYPE command: {0}".format(' '.join(cmd)))
     try:
         p = subprocess.run(' '.join(cmd), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=workdir)
     except subprocess.CalledProcessError as err:
-        logger.error('ACPYPE failed:', err)
+        logger.error('ACPYPE failed: {0}'.format(err))
     else:
-        logger.info('ACPYPE returncode:', p.returncode)
-        logger.info('ACPYPE stdout: {!r}'.format(p.stdout.decode('utf-8')))
+        print('ACPYPE returncode:', p.returncode)
+        for line in p.stdout.decode('utf-8').split('\n'):
+            print(line)
+
         logger.error('ACPYPE stderr: {!r}'.format(p.stderr.decode('utf-8')))
 
     output_path = os.path.join(workdir, '{0}.acpype'.format(workdir_name))
@@ -149,8 +151,10 @@ def amber_reduce(mol, options, workdir, output=None):
     except subprocess.CalledProcessError as err:
         logger.error('Amber reduce failed:', err)
     else:
-        logger.info('Amber reduce returncode:', p.returncode)
-        logger.info('Amber reduce stdout: {!r}'.format(p.stdout.decode('utf-8')))
+        print('Amber reduce returncode:', p.returncode)
+        for line in p.stdout.decode('utf-8').split('\n'):
+            print(line)
+
         logger.error('Amber reduce stderr: {!r}'.format(p.stderr.decode('utf-8')))
 
     # Return output file
