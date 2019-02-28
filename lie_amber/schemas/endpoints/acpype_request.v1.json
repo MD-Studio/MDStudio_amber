@@ -9,15 +9,10 @@
 	"$ref": "resource://mdgroup/common_resources/path_file/v1",
 	"description": "Molecular geometry"
     },
-    "from_file": {
-      "type": "boolean",
-      "description": "Is the structure a path to a file?",
-      "default": false
-    },
     "workdir": {
       "type": "string",
       "description": "Work directory",
-      "default": "."
+      "default": "/tmp/mdstudio/lie_amber"
     },
     "charge_method": {
       "type": "string",
