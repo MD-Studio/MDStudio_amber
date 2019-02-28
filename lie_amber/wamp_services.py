@@ -117,8 +117,8 @@ def call_amber_package(request, config, function):
 
     # Create unique workdir and save file
     workdir = request['workdir']
-    if not os.path.isdir(folder):
-        os.mkdir(folder)
+    if not os.path.isdir(workdir):
+        os.mkdir(workdir)
 
     tmp_file = os.path.join(workdir, 'input.{0}'.format(request['structure'].get('extension', 'mol2')))
     with open(tmp_file, 'w') as inp:
