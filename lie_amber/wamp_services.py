@@ -62,7 +62,7 @@ class AmberWampApi(ComponentSession):
                 result['status'] = 'completed'
 
         # Remove workdir
-        #shutil.rmtree(workdir)
+        shutil.rmtree(workdir)
 
         return result
 
