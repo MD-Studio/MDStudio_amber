@@ -72,6 +72,11 @@
       "description": "Sort atoms for GMX ordering",
       "default": false
     },
+    "debug": {
+      "type": "boolean",
+      "description": "Use ACPYPE in debug mode",
+      "default": false
+    },
     "direct": {
       "type": "boolean",
       "description": "Amb2gmx mode, does a direct conversion, for any solvent",
