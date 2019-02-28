@@ -101,7 +101,7 @@ def get_amber_config(request):
     Remove the keywords not related to amber
     """
     d = request.copy()
-    keys = ['workdir', 'structure', 'from_file']
+    keys = ['workdir', 'structure']
 
     for k in keys:
         if k in d:
@@ -112,43 +112,18 @@ def get_amber_config(request):
 
 def call_amber_package(request, config, function):
     """
-    Create temporate files and invoke the `function` using `config`.
+    Create temporary files and invoke the `function` using `config`.
     """
 
     # Create unique workdir and save file
     workdir = request['workdir']
-    create_dir(workdir)
-    tmp_file = create_temp_file(
-        request['structure']['content'], request['from_file'], workdir)
+    if not os.path.isdir(folder):
+        os.mkdir(folder)
+
+    tmp_file = os.path.join(workdir, 'input.{0}'.format(request['structure'].get('extension', 'mol2')))
+    with open(tmp_file, 'w') as inp:
+        inp.write(request['structure']['content'])
 
     # Run amber function
     output = function(tmp_file, config, workdir)
     return output
-
-
-def copy_structure(structure, from_file, tmp_file):
-    if from_file and os.path.exists(structure):
-        shutil.copyfile(structure, tmp_file)
-    else:
-        with open(tmp_file, 'w') as inp:
-            inp.write(structure)
-
-
-def create_dir(folder):
-    if not os.path.isdir(folder):
-        os.mkdir(folder)
-
-
-def create_temp_file(structure, from_file, workdir):
-    tmp_file = os.path.join(workdir, 'input.mol2')
-    copy_structure(structure, from_file, tmp_file)
-
-    return tmp_file
-
-
-def read_file(path):
-    if os.path.isfile(path):
-        with open(path, "r") as f:
-            return f.read()
-    else:
-        return path
