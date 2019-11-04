@@ -1,30 +1,24 @@
-FROM mdstudio/mdstudio_docker3:0.0.3 as amber_base
+# Install AmberTools using conda
+FROM mdstudio/mdstudio_docker_conda:0.0.3
+
+ARG AMBER_TOOLS_VERSION=19
+
+RUN conda install -c openbabel openbabel && \
+    conda install ambertools=${AMBER_TOOLS_VERSION} -c ambermd && \
+    conda install numpy
 
 WORKDIR /home/mdstudio
 
-RUN wget http://ambermd.org/downloads/install_ambertools.sh
+COPY entry_point_mdstudio_amber.sh sett* setup.py /home/mdstudio/mdstudio_amber/
 
-RUN bash install_ambertools.sh -v 3 --prefix /home/mdstudio --non-conda 
+COPY mdstudio_amber /home/mdstudio/mdstudio_amber/mdstudio_amber
 
-RUN rm -rf /home/mdstudio/ambertools.18.binary.tar.bz2
+COPY scripts /home/mdstudio/mdstudio_amber/scripts
 
-# used amber compiled in previous step
-FROM mdstudio/mdstudio_docker3:0.0.3
+RUN chown mdstudio:mdstudio /home/mdstudio/mdstudio_amber
 
-run apt-get update -y && apt-get install swig gcc gfortran libopenbabel-dev openbabel -y
+WORKDIR /home/mdstudio/mdstudio_amber
 
-COPY --from=amber_base /home/mdstudio/amber18 /home/mdstudio/amber18
+RUN pip install -e .
 
-COPY entry_point_lie_amber.sh sett* setup.py /home/mdstudio/lie_amber/
-
-COPY lie_amber /home/mdstudio/lie_amber/lie_amber
-
-COPY scripts /home/mdstudio/lie_amber/scripts
-
-RUN chown mdstudio:mdstudio /home/mdstudio/lie_amber
-
-WORKDIR /home/mdstudio/lie_amber
-
-RUN pip install openbabel .
-
-CMD ["bash", "entry_point_lie_amber.sh"]
+CMD ["bash", "entry_point_mdstudio_amber.sh"]
