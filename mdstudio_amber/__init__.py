@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-LIEStudio component providing an interface to the Amber Tools software suite
+MDStudio component providing an interface to the Amber Tools software suite
 available at http://ambermd.org
 When using this component in scientific work please cite:
 - D.A. Case, R.M. Betz, W. Botello-Smith, D.S. Cerutti, T.E. Cheatham, III,
@@ -16,14 +16,14 @@ When using this component in scientific work please cite:
 
 import os
 
-__module__ = 'lie_amber'
+__module__ = 'MDStudio_amber'
 __docformat__ = 'restructuredtext'
 __version__ = '{major:d}.{minor:d}'.format(major=0, minor=2)
 __author__ = 'Marc van Dijk'
 __status__ = 'pre-release beta1'
 __date__ = '15 april 2016'
 __licence__ = 'Apache Software License 2.0'
-__url__ = 'https://github.com/NLeSC/LIEStudio'
+__url__ = 'https://github.com/MD-Studio/MDStudio_amber'
 __copyright__ = "Copyright (c) VU University, Amsterdam"
 __rootpath__ = os.path.dirname(__file__)
 

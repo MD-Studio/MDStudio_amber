@@ -7,7 +7,7 @@ from tempfile import mktemp
 from mdstudio.api.endpoint import endpoint
 from mdstudio.component.session import ComponentSession
 
-from lie_amber.ambertools import (amber_acpype, amber_reduce)
+from mdstudio_amber.ambertools import (amber_acpype, amber_reduce)
 
 
 def encoder(file_path):
@@ -50,6 +50,7 @@ class AmberWampApi(ComponentSession):
         # Create unique workdir name
         workdir = os.path.join(os.path.abspath(request['workdir']), os.path.basename(mktemp()))
         self.log.info('Set ACPYPE workdir to: {0}'.format(workdir))
+        self.log.info('Amber installation: {0}'.format(os.environ.get('AMBERHOME')))
         request['workdir'] = workdir
 
         # Run acpype
@@ -79,6 +80,7 @@ class AmberWampApi(ComponentSession):
         # Create unique workdir name
         workdir = os.path.join(os.path.abspath(request['workdir']), os.path.basename(mktemp()))
         self.log.info('Set AMBER reduce workdir to: {0}'.format(workdir))
+        self.log.info('Amber installation: {0}'.format(os.environ.get('AMBERHOME')))
         request['workdir'] = workdir
 
         # Run AMBER reduce

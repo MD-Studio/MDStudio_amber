@@ -12,7 +12,7 @@
     "workdir": {
       "type": "string",
       "description": "Work directory",
-      "default": "/tmp/mdstudio/lie_amber"
+      "default": "/tmp/mdstudio/mdstudio_amber"
     },
     "charge_method": {
       "type": "string",
