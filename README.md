@@ -51,8 +51,7 @@ repository and install `mdstudio_amber` locally as:
     pip install (-e) mdstudio_amber/
     
 This install requires the AmberTools package to be installed and accessible in your environment using the `AMBERHOME`
-environment variable. The `acpype` script used by the `mdstudio_amber` package requires the OpenBabel package that should
-be isntalled automatically by pip when installing the mdstudio_amber package.
+environment variable. The `acpype` script used by the `mdstudio_amber` package requires the OpenBabel package.
 After installation ensure that the `AMBERHOME` environment variable is set and start the service by:
 
     ./entry_point_mdstudio_amber.sh
