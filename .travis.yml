@@ -21,10 +21,9 @@ install:
 
   # install dependencies
   - (git clone git://github.com/MD-Studio/MDStudio.git --single-branch && pip install -e MDStudio/mdstudio)
-  - conda install ambertools=18 -c http://ambermd.org/downloads/ambertools/conda/
+  - conda install ambertools=19 -c http://ambermd.org/downloads/ambertools/conda/
   - conda install -c openbabel openbabel 
 
-  
   # install library
   - pip install -e .[test]
   
@@ -34,3 +33,6 @@ script:
 branches:
   only:
     - master
+
+after_success:
+  - codecov
