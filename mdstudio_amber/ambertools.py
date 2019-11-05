@@ -31,7 +31,7 @@ def set_keyword_flags(options):
             if flag is not None and not isinstance(flag, bool)]
 
 
-def amber_acpype(mol, options, workdir):
+def amber_acpype(mol, options, workdir, acepype_exe='acpype.py'):
     """
     Run the ACPYPE program (AnteChamber PYthon Parser interfacE)
 
@@ -40,16 +40,15 @@ def amber_acpype(mol, options, workdir):
       Parser interfacE. (2012), BMC Res Notes. 2012 Jul 23;5:367.
       doi: 10.1186/1756-0500-5-367.
 
-    :param mol:     file path to input structure in MOL2 file format
-    :type mol:      :py:str
-    :param options: ACPYPE command line options
-    :type options:  :py:dict
-    :param workdir: file path to working directory to execute reduce command
-    :type workdir:  :py:str
+    :param mol:         file path to input structure in MOL2 file format
+    :type mol:          :py:str
+    :param options:     ACPYPE command line options
+    :type options:      :py:dict
+    :param workdir:     file path to working directory to execute reduce command
+    :type workdir:      :py:str
+    :param acepype_exe: ACPYPE executable (path)
+    :type acepype_exe:  :py:str
     """
-
-    # ACPYPE executable
-    acepype_exe = 'acpype.py'
 
     # Construct CLI arguments
 
