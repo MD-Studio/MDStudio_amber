@@ -30,7 +30,7 @@ connect to it. You can unify this behaviour by adding the MDStudio Amber service
               environment:
                 - CROSSBAR_HOST=crossbar
               volumes:
-                - ${WORKDIR}/mdstudio_amber:/tmp/mdstudio/mdstudio_mber
+                - ${WORKDIR}/mdstudio_amber:/tmp/mdstudio/mdstudio_amber
 
 And optionally add `mdstudio_amber` to MDStudio/core/auth/settings.dev.yml for automatic authentication and 
 authorization at startup.
