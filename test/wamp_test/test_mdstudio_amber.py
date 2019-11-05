@@ -3,7 +3,7 @@ from mdstudio.component.session import ComponentSession
 from mdstudio.runner import main
 import os
 
-workdir = "/tmp/lie_amber"
+workdir = "/tmp/mdstudio_amber"
 structure_path = os.path.join(os.getcwd(), "input.mol2")
 with open(structure_path, 'r') as f:
     amber_input = f.read()
@@ -20,7 +20,7 @@ class Run_acpype(ComponentSession):
     @chainable
     def on_run(self):
         result = yield self.call(
-            "mdgroup.lie_amber.endpoint.acpype",
+            "mdgroup.mdstudio_amber.endpoint.acpype",
             {"structure": structure,
              "workdir": workdir})
         print(result)

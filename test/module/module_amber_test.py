@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import json
-import logging
 import os
 import pkgutil
 import shutil
-import sys
 import tempfile
 import unittest
-from lie_amber.wamp_services import get_amber_config
-from lie_amber.ambertools import amber_acpype
+
+from mdstudio_amber.utils import get_amber_config
+from mdstudio_amber.ambertools import amber_acpype
 
 
 def schema_to_data(schema, data=None, defdict=None):
@@ -35,7 +34,7 @@ def schema_to_data(schema, data=None, defdict=None):
 
 ACPYPE_LIE_SCHEMA = os.path.join(
     pkgutil.get_data(
-        'lie_amber', 'schemas/endpoints/acpype_request.v1.json'))
+        'mdstudio_amber', 'schemas/endpoints/acpype_request.v1.json'))
 
 settings_acpype = get_amber_config(
     schema_to_data(json.loads(ACPYPE_LIE_SCHEMA)))
@@ -51,18 +50,11 @@ class Test_amber_components(unittest.TestCase):
             shutil.rmtree(self.workdir)
 
     def test_amber_acepype(self):
-        path = os.path.join(os.path.dirname(__file__), 'files/input.mol2')
+        path = os.path.join(os.path.dirname(__file__), '../files/input.mol2')
         shutil.copy(path, self.workdir)
-        output = amber_acpype('input.mol2', settings_acpype, self.workdir)
+        output = amber_acpype('input.mol2', settings_acpype, self.workdir,
+                              acepype_exe=os.path.join(os.path.dirname(__file__), '../../scripts/acpype.py'))
         self.assertTrue(os.path.isdir(output['path']))
 
     def test_amber_reduce(self):
         pass
-
-
-if __name__ == "__main__":
-    logger = logging.getLogger()
-    logger.level = logging.INFO
-    stream_handler = logging.StreamHandler(sys.stdout)
-    logger.addHandler(stream_handler)
-    unittest.main(verbosity=2)
