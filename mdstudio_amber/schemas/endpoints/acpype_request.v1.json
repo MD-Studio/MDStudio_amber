@@ -6,8 +6,8 @@
   "type": "object",
   "properties": {
     "structure": {
-	"$ref": "resource://mdgroup/common_resources/path_file/v1",
-	"description": "Molecular geometry"
+      "$ref": "resource://mdgroup/common_resources/path_file/v1",
+      "description": "Molecular geometry"
     },
     "workdir": {
       "type": "string",
@@ -109,6 +109,6 @@
     }
   },
   "required": [
-      "structure"
+    "structure"
   ]
 }
