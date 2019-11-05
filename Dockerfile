@@ -1,13 +1,12 @@
-# Install AmberTools using conda
-FROM mdstudio/mdstudio_docker_conda:0.0.3
+FROM mdstudio/mdstudio_docker_conda as amber_base
 
 ARG AMBER_TOOLS_VERSION=19
 
-RUN conda install -c openbabel openbabel && \
+# Install AmberTools using conda
+RUN conda install -c anaconda libgfortran && \
+    conda install -c openbabel openbabel && \
     conda install ambertools=${AMBER_TOOLS_VERSION} -c ambermd && \
     conda install numpy
-
-WORKDIR /home/mdstudio
 
 COPY entry_point_mdstudio_amber.sh sett* setup.py /home/mdstudio/mdstudio_amber/
 
