@@ -20,9 +20,14 @@ install:
   - conda config --set always_yes yes --set changeps1 no --set auto_update_conda False
 
   # install dependencies
+  - conda update conda
+  - conda install -c anaconda twisted==18.4.0
+  - conda install -c anaconda libgfortran
+  - conda install -c openbabel openbabel
+  - conda install ambertools=19 -c ambermd
+  - conda install numpy
+
   - (git clone git://github.com/MD-Studio/MDStudio.git --single-branch && pip install -e MDStudio/mdstudio)
-  - conda install ambertools=19 -c http://ambermd.org/downloads/ambertools/conda/
-  - conda install -c openbabel openbabel 
 
   # install library
   - pip install -e .[test]
