@@ -4,6 +4,8 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/598ded81ce614380a02d25c3b5992e1b)](https://www.codacy.com/manual/marcvdijk/MDStudio_amber?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MD-Studio/MDStudio_amber&amp;utm_campaign=Badge_Grade)
 [![Docker Build Status](https://img.shields.io/docker/build/mdstudio/mdstudio_amber.svg)](https://hub.docker.com/r/mdstudio/mdstudio_amber/)
 
+![Configuration settings](mdstudio-logo.png)
+
 The MDStudio Amber services offers a [MDStudio](https://github.com/MD-Studio/MDStudio) WAMP API to the functionality of
 the [Ambertools](http://ambermd.org/GetAmber.php) software package and the small molecule topology generation services 
 powered by the ACPYPE (AnteChamber PYthon Parser interfacE).
