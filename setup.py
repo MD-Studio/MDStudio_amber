@@ -40,6 +40,7 @@ setup(
     platforms=['Any'],
     packages=find_packages(),
     py_modules=[distribution_name],
+    package_data={'mdstudio_amber': ['schemas/endpoints/*']},
     include_package_data=True,
     zip_safe=True,
     scripts=['scripts/acpype.py'],
